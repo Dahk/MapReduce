@@ -26,6 +26,7 @@ The Splitting part occurs in the orchestrator. The orchestrator is the *main* pr
 The objective of this practical assignment was to write the whole MapReduce system with two implementations of the map function. These map functions are the following ones:
 
 **CountingWords**: Counts the total number of words in a text file. For example, given the following text: "I love Distributed Systems", the output of CountingWords should be 4 words.
+
 **WordCount**: Counts the number of occurrences of each word in a text file. For instance, given the following text: "foo bar bar foo", the output of WordCount should be: bar, 2; foo, 2.
 
 The program had to be able to scale depending on the number of partitions or threads specified by the user.
