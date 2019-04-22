@@ -24,7 +24,7 @@ class SingleCallback(object):
         ch.stop_consuming()
 
 class Orchestrator:
-    def __init__ (self, target_bucket, target_fname, upload=False):
+    def __init__ (self, target_bucket, target_fname, upload=True):
         self.target_fname = target_fname
         self.target_bucket = target_bucket
         self.ini_error = False
