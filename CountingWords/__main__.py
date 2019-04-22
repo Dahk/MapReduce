@@ -9,13 +9,11 @@ def main(args):
     # initialize cos wrapper
     cb = COSBackend(args['cos']['service_endpoint'], args['cos']['secret_key'], args['cos']['access_key'])
 
-    # fetch the assigned range of bytes
-    target_segment = cb.get_object(args['target_bucket'], args['target_fname'], extra_get_args={"Range": args['Range']})
-    target_segment = target_segment.decode('UTF-8', errors='ignore')
-
-    words = re.findall(r'\w+', target_segment)  # parse chunk into words
+    # fetch the assigned range of bytes and parse that chunk into words to then count the number of occurrences of each word
+    # ( by the way, this must be done in one line (as a r-value) so that the object returned by the cb.get_object method gets
+    # free'd by the garbage collector ASAP, therefore reserved memory doesn't stack up too much )
+    words = re.findall(r'\w+', cb.get_object(args['target_bucket'], args['target_fname'], extra_get_args={'Range': args['Range']}).decode('UTF-8', errors='ignore'))    
     result = {}
-    # count word repetition
     for word in words:
 	    adapted_word = word.lower() #unidecode.unidecode(word).lower()
 	    if adapted_word in result:

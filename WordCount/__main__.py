@@ -8,12 +8,10 @@ def main(args):
     # initialize cos wrapper
     cb = COSBackend(args['cos']['service_endpoint'], args['cos']['secret_key'], args['cos']['access_key'])
 
-    # fetch the assigned range of bytes
-    target_segment = cb.get_object(args['target_bucket'], args['target_fname'], extra_get_args={"Range": args['Range']})
-    target_segment = target_segment.decode('UTF-8', errors='ignore')
-
-    # parse chunk into words, get the total number of words
-    words = re.findall(r'\w+', target_segment)
+    # fetch the assigned range of bytes and parse that chunk into words to then get the total number of words
+    # ( by the way, this must be done in one line (as a r-value) so that the object returned by the cb.get_object method gets
+    # free'd by the garbage collector ASAP, therefore reserved memory doesn't stack up too much )
+    words = re.findall(r'\w+', cb.get_object(args['target_bucket'], args['target_fname'], extra_get_args={'Range': args['Range']}).decode('UTF-8', errors='ignore'))
     counter = len(words)
     result = {'word_count': counter}
 
