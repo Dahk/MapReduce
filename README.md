@@ -35,7 +35,7 @@ We decided to implement the orchestrator as a Pyhton class, so that it cloud be 
 
 ---
 
-### Techonologies Used
+### Technologies Used
 - IBM Cloud Object Storage
 - IBM Functions
 - RabbitAMQP
@@ -43,4 +43,5 @@ We decided to implement the orchestrator as a Pyhton class, so that it cloud be 
 
 ### Authors
 Pol Roca Llaberia (<pol.roca@estudiants.urv.cat>)
+
 Marc Bachs Ciprés (<marc.bachs@estudiants.urv.cat>)
