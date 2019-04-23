@@ -103,10 +103,10 @@ class CloudFunctions:
 
         if 'activationId' in data:
             log_msg = ('Activation ID: {} - Time: {} seconds'.format(data["activationId"], resp_time))
-            print(log_msg)
+            #print(log_msg)
             return data["activationId"]
         else:
-            print(data)
+            #print(data)
             return None
 
     def invoke_with_result(self, action_name, payload={}):

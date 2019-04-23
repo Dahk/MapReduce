@@ -12,11 +12,10 @@ class ReduceCallback(object):
             self.result = {}    # where we will be accumulating results
 
         def __call__ (self, ch, method, properties, body):
-            # fetch results chunk
-            target_segment = self.cb.get_object(self.target_bucket, body.decode('utf-8'))
 
-            # parse results chunk
-            chunk = json.loads(target_segment.decode('utf-8'))
+            file_tag = body.decode('utf-8') # decode file from queue message            
+            target_segment = self.cb.get_object(self.target_bucket, file_tag)   # fetch results chunk            
+            chunk = json.loads(target_segment.decode('utf-8'))  # parse results chunk
 
             # merge dictionary with the whole result dictionary
             for word in chunk:
@@ -26,8 +25,9 @@ class ReduceCallback(object):
                     self.result[word] = chunk[word]
 
             ch.basic_ack(delivery_tag=method.delivery_tag)  # delete message from the queue
+            self.cb.delete_object(self.target_bucket, file_tag)    # delete mapper result after merging
             
-            # decrease counter
+            # decrease and check counter
             self.nthreads -= 1
             if not self.nthreads:
                 ch.stop_consuming()

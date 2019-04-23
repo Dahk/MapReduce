@@ -24,7 +24,7 @@ class SingleCallback(object):
         ch.stop_consuming()
 
 class Orchestrator:
-    def __init__ (self, target_bucket, target_fname, upload=True):
+    def __init__ (self, target_bucket, target_fname, upload=False):
         self.target_fname = target_fname
         self.target_bucket = target_bucket
         self.ini_error = False
@@ -111,13 +111,13 @@ class Orchestrator:
             mapargs['index'] = str(i)
             mapargs['Range'] = 'bytes={}-{}'.format(chunk_size*i, chunk_size*(i+1))
             self.cf.invoke(mapper, mapargs)
-            print('[{}]'.format(mapargs['index']), chunk_size*i, 'to', chunk_size*(i+1))
+            #print('[{}]'.format(mapargs['index']), chunk_size*i, 'to', chunk_size*(i+1))
         
         # dispatch the last mapper, so that it takes the rest of the file
         mapargs['index'] = nthreads-1
         mapargs['Range'] = 'bytes={}-{}'.format(chunk_size*(nthreads-1), self.fsize)
         self.cf.invoke(mapper, mapargs)
-        print('[{}]'.format(mapargs['index']), chunk_size*(nthreads-1), 'to', self.fsize)
+        #print('[{}]'.format(mapargs['index']), chunk_size*(nthreads-1), 'to', self.fsize)
 
         # prepare arguments for the reducer (reducer args)
         redargs = self.comargs.copy()
@@ -128,9 +128,9 @@ class Orchestrator:
 
         channel.queue_declare(queue=self.reducer_qid)
         channel.queue_purge(queue=self.reducer_qid)  # ensure no message was left
-
+        
         self.cf.invoke('Reducer', redargs)
-
+        
         # wait for the reducer to finish        
         channel.basic_consume(queue=self.reducer_qid, on_message_callback=SingleCallback())
         channel.start_consuming()
@@ -139,9 +139,8 @@ class Orchestrator:
         end_t = time.time()
 
         connection.close()
-
-        print('Execution time: {0:.5g}s'.format(end_t-start_t))
-
+        
+        print('Done.\nExecution time: {0:.5g}s'.format(end_t-start_t))
 
     def claimFile (self, result_type, result_fname):
         # check if initialization was good
