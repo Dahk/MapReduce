@@ -44,7 +44,6 @@ In order to ilustrate a small example of how this MapReduce scales, we tested it
 The test was run using a text file (concatenations of books made by our lab professor) of around 1GiB size as a target.  
 By the way, as seen on the graphs, we calculated the speedups according to the run time of a 10 partition execution because the file is too big and the functions have the maximum memory capped to 2048MiB. Also, the time recordings are from right before dispatching the mappers on the orchestrator to just after receiving the message from the reducer.
 
----
 
 ### Technologies Used
 - [IBM Cloud Object Storage](https://www.ibm.com/cloud/object-storage)
@@ -52,7 +51,12 @@ By the way, as seen on the graphs, we calculated the speedups according to the r
 - [RabbitAMQP](https://www.rabbitmq.com/#features)
 - [Python](https://www.python.org/)
 
-### Authors
+---
+
+## Authors
 Pol Roca Llaberia (<pol.roca@estudiants.urv.cat>)
 
 Marc Bachs Ciprés (<marc.bachs@estudiants.urv.cat>)
+
+## License
+This project is licensed under the MIT License - see the [LICENSE](/LICENSE) file for details
