@@ -33,13 +33,24 @@ The program had to be able to scale depending on the number of partitions or thr
 
 We decided to implement the orchestrator as a Pyhton class, so that it cloud be used for different approaches in the future. However, we also provided a *main* program for testing.
 
+### Performance, speedup
+
+In order to ilustrate a small example of how this MapReduce scales, we tested it with different numbers of partitions. We collected the execution times and drew an orientative graph for each of the mappers (based on real results, nonetheless). It compares the speedup and the number of partitions. 
+
+![CW Graph](/cw-speedup-graph.png)
+
+![WC Graph](/wc-speedup-graph.png)
+
+The test was run using a text file (concatenations of books made by our lab professor) of around 1GiB size as a target.  
+By the way, as seen on the graphs, we calculated the speedups according to the run time of a 10 partition execution because the file is too big and the functions have the maximum memory capped to 2048MiB. Also, the time recordings are from right before dispatching the mappers on the orchestrator to just after receiving the message from the reducer.
+
 ---
 
 ### Technologies Used
-- IBM Cloud Object Storage
-- IBM Functions
-- RabbitAMQP
-- Python
+- [IBM Cloud Object Storage](https://www.ibm.com/cloud/object-storage)
+- [IBM Functions](https://www.ibm.com/cloud/functions)
+- [RabbitAMQP](https://www.rabbitmq.com/#features)
+- [Python](https://www.python.org/)
 
 ### Authors
 Pol Roca Llaberia (<pol.roca@estudiants.urv.cat>)
