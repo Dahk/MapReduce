@@ -49,7 +49,7 @@ By the way, as seen on the graphs, we calculated the speedups according to the r
 - [IBM Cloud Object Storage](https://www.ibm.com/cloud/object-storage)
 - [IBM Functions](https://www.ibm.com/cloud/functions)
 - [RabbitAMQP](https://www.rabbitmq.com/#features)
-- [Python](https://www.python.org/)
+- [Python 3.7](https://www.python.org/)
 
 ---
 
